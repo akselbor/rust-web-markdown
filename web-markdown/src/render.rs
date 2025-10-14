@@ -78,7 +78,7 @@ fn highlight_code(theme_name: Option<&str>, content: &str, kind: &CodeBlockKind)
 
 #[cfg(not(feature="code"))]
 fn highlight_code(theme_name: Option<&str>, content: &str, kind: &CodeBlockKind) -> Option<String> {
-    Some(content.clone())
+    Some(content.to_string())
 }
 
 /// renders a source code in a code block, with syntax highlighting if possible.
