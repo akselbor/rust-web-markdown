@@ -12,7 +12,7 @@ repository = "https://github.com/rambip/rust-web-markdown"
 web-sys = { version = "0.3.61", features = ["MouseEvent"] }
 syntect = { version = "5.0.0", default-features = false, features = [
     "default-fancy",
-] }
+], optional = true }
 lazy_static = "1.4.0"
 pulldown-cmark = "0.13.0"
 
@@ -25,6 +25,7 @@ katex = { version = "0.4", default-features = false, features = [
 katex = { version = "0.4", optional = true }
 
 [features]
-default = ["maths"]
+default = ["maths", "code"]
 debug = []
 maths = ["katex"]
+code = ["syntect"]

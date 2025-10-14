@@ -2,7 +2,9 @@ use core::ops::Range;
 
 use core::marker::PhantomData;
 
+#[cfg(feature="code")]
 use syntect::highlighting::ThemeSet;
+#[cfg(feature="code")]
 use syntect::parsing::SyntaxSet;
 
 use pulldown_cmark::{Alignment, CodeBlockKind, Event, Tag, TagEnd};
@@ -22,6 +24,7 @@ use super::{Context, ElementAttributes, HtmlError, LinkDescription, MdComponentP
 use crate::component::{ComponentCall, CustomHtmlTag, CustomHtmlTagError};
 
 // load the default syntect options to highlight code
+#[cfg(feature="code")]
 lazy_static::lazy_static! {
     static ref SYNTAX_SET: SyntaxSet = {
         SyntaxSet::load_defaults_newlines()
@@ -48,6 +51,7 @@ impl HtmlError {
 
 /// `highlight_code(content, ss, ts)` render the content `content`
 /// with syntax highlighting
+#[cfg(feature="code")]
 fn highlight_code(theme_name: Option<&str>, content: &str, kind: &CodeBlockKind) -> Option<String> {
     let lang = match kind {
         CodeBlockKind::Fenced(x) => x,
@@ -70,6 +74,11 @@ fn highlight_code(theme_name: Option<&str>, content: &str, kind: &CodeBlockKind)
         )
         .ok()?,
     )
+}
+
+#[cfg(not(feature="code"))]
+fn highlight_code(theme_name: Option<&str>, content: &str, kind: &CodeBlockKind) -> Option<String> {
+    Some(content.clone())
 }
 
 /// renders a source code in a code block, with syntax highlighting if possible.
